@@ -286,4 +286,18 @@ MAP_REPO_TO_PARSER_PY = {
     "sqlfluff/sqlfluff": parse_log_sqlfluff,
     "sphinx-doc/sphinx": parse_log_sphinx,
     "sympy/sympy": parse_log_sympy,
+    # SWE-Gym additional repositories
+    "python/mypy": parse_log_pytest,
+    "getmoto/moto": parse_log_pytest,
+    "conan-io/conan": parse_log_pytest,
+    "dask/dask": parse_log_pytest,
+    "Project-MONAI/MONAI": parse_log_pytest,
+    "iterative/dvc": parse_log_pytest,
+    "bokeh/bokeh": parse_log_pytest,
+    "modin-project/modin": parse_log_pytest,
+    "spyder-ide/spyder": parse_log_pytest,
+    "HypothesisWorks/hypothesis": parse_log_pytest,
+    "pydantic/pydantic": parse_log_pytest,
+    "pandas-dev/pandas": parse_log_pytest,
+    "facebookresearch/hydra": parse_log_pytest,
 }
