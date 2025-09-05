@@ -991,7 +991,6 @@ SPECS_MYPY.update(
 # not worth it for now
 
 
-MAP_REPO_VERSION_TO_SPECS.update({"python/mypy": SPECS_MYPY})
 
 
 TEST_MOTO = "pytest -n0 -rA"
@@ -1009,7 +1008,6 @@ SPECS_MOTO = {
         '4.0', '4.1', '4.2', '5.0',
     ]
 }
-MAP_REPO_VERSION_TO_SPECS.update({"getmoto/moto": SPECS_MOTO})
 
 TEST_CONAN = "pytest -n0 -rA"
 
@@ -1045,7 +1043,6 @@ SPECS_CONAN.update({
     }
     for k in ['2.1', '1.60', '1.61', '1.62', '2.2', '2.3', '2.4']
 })
-MAP_REPO_VERSION_TO_SPECS.update({"conan-io/conan": SPECS_CONAN})
 
 
 
@@ -1065,7 +1062,6 @@ SPECS_DASK = {
     }
     for k in ['2.11', '2.12', '2.13', '2.14', '2.15', '2.16', '2.17', '2.18', '2.19', '2.21', '2.22', '2.23', '2.25', '2.26', '2.27', '2.28', '2.29', '2.30', '2020.12', '2021.01', '2021.02', '2021.03', '2021.04', '2021.05', '2021.06', '2021.07', '2021.08', '2021.09', '2021.10', '2021.11', '2021.12', '2022.01', '2022.02', '2022.03', '2022.04', '2022.05', '2022.6', '2022.7', '2022.8', '2022.9', '2022.10', '2022.11', '2022.12', '2023.1', '2023.2', '2023.3', '2023.4', '2023.5', '2023.6', '2023.7', '2023.8', '2023.9', '2023.10', '2023.11', '2023.12', '2024.1', '2024.2', '2024.3', '2024.4', '2024.5']
 }
-MAP_REPO_VERSION_TO_SPECS.update({"dask/dask": SPECS_DASK})
 
 TEST_MONAI = "pytest -rA "
 SPECS_MONAI = {
@@ -1084,7 +1080,6 @@ SPECS_MONAI = {
     }
     for k in ['0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '0.11', '0.105', '1.0', '1.1', '1.2', '1.3']
 }
-MAP_REPO_VERSION_TO_SPECS.update({"Project-MONAI/MONAI": SPECS_MONAI})
 
 # dvc
 TEST_DVC = "pytest -rA"
@@ -1119,7 +1114,6 @@ for k in [
     SPECS_DVC[k]['install'] += ' python -m pip install "numpy<=1.20";'
     # pytest 8 breaks pytest-lazy-fixture
     SPECS_DVC[k]['install'] += ' python -m pip install "pytest<8";'
-MAP_REPO_VERSION_TO_SPECS.update({"iterative/dvc": SPECS_DVC})
 
 # bokeh
 # https://docs.bokeh.org/en/latest/docs/dev_guide/setup.html
@@ -1171,7 +1165,6 @@ SPECS_BOKEH.update({
     }
     for k in ['0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '0.10', '0.11', '0.12', '0.13', '0.1181316818', '1.0', '1.1', '1.2', '1.3', '1.4']
 })
-MAP_REPO_VERSION_TO_SPECS.update({"bokeh/bokeh": SPECS_BOKEH})
 
 
 # modin
@@ -1195,7 +1188,6 @@ for k in  ['0.1', '0.2', '0.3', '0.4', '0.6', '0.8', '0.9', '0.10', '0.11', '0.1
     SPECS_MODIN[k]['python'] = '3.8'
     SPECS_MODIN[k]['install'] += ' python -m pip install numpy==1.23.1 protobuf==3.20.1;'
 
-MAP_REPO_VERSION_TO_SPECS.update({"modin-project/modin": SPECS_MODIN})
 
 # spyder
 # https://github.com/spyder-ide/spyder/blob/master/CONTRIBUTING.md
@@ -1215,7 +1207,6 @@ SPECS_SPYDER = {
     for k in []
 }
 
-MAP_REPO_VERSION_TO_SPECS.update({"spyder-ide/spyder": SPECS_SPYDER})
 
 # hypothesis
 # https://github.com/HypothesisWorks/hypothesis/blob/eaafdfcad3f362e75746863472101d4cfabbc33d/CONTRIBUTING.rst
@@ -1232,7 +1223,6 @@ SPECS_HYPOTHESIS = {
 for k in ['3.55', '3.61', '3.60', '3.59', '3.63', '3.66', '3.67', '3.68', '3.69', '3.70', '5.1', '5.5', '5.24', '5.6', '5.9', '5.8', '5.10', '5.12', '5.15', '5.20', '5.23', '5.36', '5.32', '5.33', '5.38', '5.41', '5.42', '5.43', '5.47', '6.1', '6.4', '6.6', '6.8', '6.14', '6.13', '6.18', '6.21', '6.24', '6.28', '6.29', '3.73', '3.71', '3.75', '3.79', '3.82', '3.85', '3.88', '4.0', '3.86', '4.2', '4.4', '4.15', '4.12', '4.14', '4.18', '4.23', '4.24', '4.26', '4.32', '4.38', '4.40', '4.42', '4.46', '4.44', '4.50', '4.54', '4.55', '5.2', '5.4', '6.30', '6.31']:
     SPECS_HYPOTHESIS[k]['python'] = '3.9'
 
-MAP_REPO_VERSION_TO_SPECS.update({"HypothesisWorks/hypothesis": SPECS_HYPOTHESIS})
 
 # pydantic
 # https://docs.pydantic.dev/latest/contributing/
@@ -1271,7 +1261,6 @@ for k in ['0.2', '0.41', '0.4', '0.6', '0.9', '0.10', '0.11', '0.13', '0.14', '0
         ]
     SPECS_PYDANTIC[k]["python"] = "3.7"
 
-MAP_REPO_VERSION_TO_SPECS.update({"pydantic/pydantic": SPECS_PYDANTIC})
 
 # pandas
 # https://pandas.pydata.org/pandas-docs/dev/development/contributing_environment.html
@@ -1291,7 +1280,6 @@ SPECS_PANDAS = {
 for k in ['0.16', '0.17', '0.18', '0.19', '0.20', '0.21', '0.22', '0.23', '0.24', '0.25', '0.26', '1.0', '1.1', '1.2', '1.3', '1.4', '1.5', '2.0', '2.1']:
     # numpy 2 is supported in pandas 2.2
     SPECS_PANDAS[k]['install'] = "python -m pip install 'numpy<2'; " + SPECS_PANDAS[k]['install'] 
-MAP_REPO_VERSION_TO_SPECS.update({"pandas-dev/pandas": SPECS_PANDAS})
 
 # hydra
 TEST_HYDRA = "pytest -rA --tb=long"
@@ -1311,7 +1299,6 @@ for k in ['0.1', '0.9', '0.10', '0.11', '0.12', '1.0', '1.1', '1.2']:
     SPECS_HYDRA[k]['install'] = '{ tail -n1 requirements/requirements.txt | grep -q "." && echo ""; } >> requirements/requirements.txt; echo "pip==24.0" >> requirements/requirements.txt;' + 'pip install "pip==24.0"; ' + SPECS_HYDRA[k]['install']
     # isort is moved to PyCQA now
     SPECS_HYDRA[k]['install'] = "sed -i 's|isort@git+git://github.com/timothycrosley/isort|isort@git+https://github.com/timothycrosley/isort|g' requirements/dev.txt; " + SPECS_HYDRA[k]['install']
-MAP_REPO_VERSION_TO_SPECS.update({"facebookresearch/hydra": SPECS_HYDRA})
 
 MAP_REPO_VERSION_TO_SPECS_PY = {
     "astropy/astropy": SPECS_ASTROPY,
