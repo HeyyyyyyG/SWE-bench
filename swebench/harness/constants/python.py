@@ -1980,8 +1980,11 @@ USE_X86_PY = {
     "sympy__sympy-19201",
 }
 
-# All keys should be in lower case
-LOWER_MAP_REPO_VERSION_TO_SPECS = {
-    k.lower(): v for k, v in MAP_REPO_VERSION_TO_SPECS_PY.items()
-}
+# Create a version with both original and lowercase keys for compatibility
+LOWER_MAP_REPO_VERSION_TO_SPECS = {}
+for k, v in MAP_REPO_VERSION_TO_SPECS_PY.items():
+    # Add both original case and lowercase versions
+    LOWER_MAP_REPO_VERSION_TO_SPECS[k] = v
+    LOWER_MAP_REPO_VERSION_TO_SPECS[k.lower()] = v
+
 MAP_REPO_VERSION_TO_SPECS_PY = LOWER_MAP_REPO_VERSION_TO_SPECS
