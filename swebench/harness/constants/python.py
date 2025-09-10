@@ -40,7 +40,33 @@ SPECS_SKLEARN.update(
             "pip_packages": ["cython", "setuptools", "numpy", "scipy"],
             "test_cmd": TEST_PYTEST,
         }
-        for k in ["1.3", "1.4", "1.5", "1.6"]
+        for k in ["1.3", "1.4"]
+    }
+)
+
+SPECS_SKLEARN.update(
+    {
+        k: {
+            "python": "3.9",
+            "packages": "numpy scipy cython setuptools pytest pandas matplotlib joblib threadpoolctl meson-python",
+            "install": "python -m pip install -v --no-use-pep517 --no-build-isolation -e . || python -m pip install -v --no-build-isolation -e .",
+            "pip_packages": ["cython", "setuptools", "numpy", "scipy"],
+            "test_cmd": TEST_PYTEST,
+        }
+        for k in ["1.5"]
+    }
+)
+
+SPECS_SKLEARN.update(
+    {
+        k: {
+            "python": "3.9",
+            "packages": "numpy scipy cython setuptools pytest pandas matplotlib joblib threadpoolctl meson-python",
+            "install": "python -m pip install -v --no-build-isolation -e .",
+            "pip_packages": ["cython", "setuptools", "numpy", "scipy"],
+            "test_cmd": TEST_PYTEST,
+        }
+        for k in ["1.6"]
     }
 )
 
@@ -365,13 +391,25 @@ for k in ["7.1", "7.2"]:
         "py==1.11.0",
         "tomli==2.0.1",
     ]
-for k in ["7.4", "8.0", "8.1", "8.2", "8.3", "8.4"]:
+SPECS_PYTEST["7.4"]["pip_packages"] = [
+    "iniconfig==2.0.0",
+    "packaging==23.1",
+    "pluggy==1.3.0",
+    "exceptiongroup==1.1.3",
+    "tomli==2.0.1",
+]
+SPECS_PYTEST["8.0"]["pip_packages"] = [
+    "iniconfig==2.0.0",
+    "packaging==23.1",
+    "pluggy==1.3.0",
+    "exceptiongroup==1.1.3",
+    "tomli==2.0.1",
+]
+
+for k in ["8.0", "8.1", "8.2", "8.3", "8.4"]:
     SPECS_PYTEST[k]["pip_packages"] = [
-        "iniconfig==2.0.0",
-        "packaging==23.1",
-        "pluggy==1.3.0",
-        "exceptiongroup==1.1.3",
-        "tomli==2.0.1",
+        "decorator",
+        "attrs==23.1.0",
     ]
 SPECS_PYTEST["6.3"]["pre_install"] = ["sed -i 's/>=>=/>=/' setup.cfg"]
 
@@ -902,6 +940,80 @@ SPECS_PYDICOM.update(
 
 SPECS_HUMANEVAL = {k: {"python": "3.9", "test_cmd": "python"} for k in ["1.0"]}
 
+# pydantic
+# https://docs.pydantic.dev/latest/contributing/
+TEST_PYDANTIC = 'pytest -rA --tb=short -vv -o console_output_style=classic --no-header'
+SPECS_PYDANTIC = {
+    k: {
+        "python": "3.8",
+        "pre_install": [
+            "apt-get update && apt-get install -y locales",
+            "apt-get install -y pipx",
+            "pipx ensurepath",
+            # well, this in fact uses python 3.10 as default by pipx
+            "pipx install pdm",
+            'export PATH="$HOME/.local/bin:$PATH"',
+            "which python",
+            "python --version",
+        ],
+        "install": 'export PATH="$HOME/.local/bin:$PATH"; pdm add pre-commit; make install;',
+        "test_cmd": TEST_PYDANTIC,
+    }
+    for k in ['0.2', '0.41', '0.4', '0.6', '0.9', '0.10', '0.11', '0.13', '0.14', '0.151', '0.15', '0.17', '0.18', '0.201', '0.20', '0.24', '0.27', '0.29', '1.01', '0.32', '1.4', '1.31', '1.41', '1.51', '1.5', '1.71', '1.6', '1.7', '1.8', '1.9', '1.10', '2.0', '2.01', '2.02', '2.03', '2.04', '2.6', '2.5', '2.4', '2.7']
+}
+
+for k in ['0.2', '0.41', '0.4', '0.6', '0.9', '0.10', '0.11', '0.13', '0.14', '0.151', '0.15', '0.17', '0.18', '0.201', '0.20', '0.24', '0.27', '0.29', '1.01', '0.32', '1.4', '1.31', '1.41', '1.51', '1.5', '1.71', '1.6', '1.7', '1.8', '1.9', '1.10']:
+    # not working yet
+    SPECS_PYDANTIC[k]["pre_install"] = [
+            "apt-get update && apt-get install -y locales",
+            "apt-get install -y pipx",
+            "pipx ensurepath",
+            # well, this in fact uses python 3.10 as default by pipx
+            "pipx install pdm  --python python3.7",
+            'export PATH="$HOME/.local/bin:$PATH"',
+            "which python",
+            "python --version",
+        ]
+    SPECS_PYDANTIC[k]["python"] = "3.7"
+
+# pandas
+# https://pandas.pydata.org/pandas-docs/dev/development/contributing_environment.html
+TEST_PANDAS = "pytest -rA --tb=long"
+SPECS_PANDAS = {
+    k: {
+        "packages": "environment.yml",
+        "pre_install": [
+            "git remote add upstream https://github.com/pandas-dev/pandas.git",
+            "git fetch upstream --tags"
+        ],
+        "install": "python -m pip install -ve . --no-build-isolation -Ceditable-verbose=true; pip uninstall pytest-qt -y;",
+        "test_cmd": TEST_PANDAS,
+    }
+    for k in ['0.16', '0.17', '0.18', '0.19', '0.20', '0.21', '0.22', '0.23', '0.24', '0.25', '0.26', '1.0', '1.1', '1.2', '1.3', '1.4', '1.5', '2.0', '2.1', '2.2', '3.0']
+}
+for k in ['0.16', '0.17', '0.18', '0.19', '0.20', '0.21', '0.22', '0.23', '0.24', '0.25', '0.26', '1.0', '1.1', '1.2', '1.3', '1.4', '1.5', '2.0', '2.1']:
+    # numpy 2 is supported in pandas 2.2
+    SPECS_PANDAS[k]['install'] = "python -m pip install 'numpy<2'; " + SPECS_PANDAS[k]['install']
+
+# hydra
+TEST_HYDRA = "pytest -rA --tb=long"
+SPECS_HYDRA = {
+    k: {
+        "python": "3.8",
+        "pre_install": [
+            "apt-get -y update && apt-get -y upgrade && apt-get install -y openjdk-17-jdk openjdk-17-jre",
+        ],
+        "install": "pip install -r requirements/dev.txt; pip install -e .;",
+        "test_cmd": TEST_HYDRA,
+    }
+    for k in ['0.1', '0.9', '0.10', '0.11', '0.12', '1.0', '1.1', '1.2', '1.3', '1.4']
+}
+for k in ['0.1', '0.9', '0.10', '0.11', '0.12', '1.0', '1.1', '1.2']:
+    # fix omegaconf pip version issue
+    SPECS_HYDRA[k]['install'] = '{ tail -n1 requirements/requirements.txt | grep -q "." && echo ""; } >> requirements/requirements.txt; echo "pip==24.0" >> requirements/requirements.txt;' + 'pip install "pip==24.0"; ' + SPECS_HYDRA[k]['install']
+    # isort is moved to PyCQA now
+    SPECS_HYDRA[k]['install'] = "sed -i 's|isort@git+git://github.com/timothycrosley/isort|isort@git+https://github.com/timothycrosley/isort|g' requirements/dev.txt; " + SPECS_HYDRA[k]['install']
+
 # Constants - Task Instance Instllation Environment
 
 # ============ SWE-Gym Additional Repositories ============
@@ -1352,7 +1464,10 @@ MAP_REPO_TO_REQS_PATHS = {
     "pylint-dev/pylint": ["requirements_test.txt"],
     "pyvista/pyvista": ["requirements_test.txt", "requirements.txt"],
     "sqlfluff/sqlfluff": ["requirements_dev.txt"],
-    "sympy/sympy": ["requirements-dev.txt", "requirements-test.txt"],
+    "sympy/sympy": ["requirements-dev.txt"],
+    "Project-MONAI/MONAI": ["requirements-dev.txt"],
+    "HypothesisWorks/hypothesis": ["requirements/tools.txt"],
+    "facebookresearch/hydra": ['requirements/dev.txt']
 }
 
 
@@ -1360,6 +1475,28 @@ MAP_REPO_TO_REQS_PATHS = {
 MAP_REPO_TO_ENV_YML_PATHS = {
     "matplotlib/matplotlib": ["environment.yml"],
     "pydata/xarray": ["ci/requirements/environment.yml", "environment.yml"],
+    "bokeh/bokeh": [
+        # for v3
+        "conda/environment-test-3.10.yml",
+        # for v2
+        "environment.yml"
+        # for v1
+    ],
+    "modin-project/modin": [
+        "environment-dev.yml"
+    ],
+    "dask/dask": [
+        "continuous_integration/environment-3.10.yaml",
+        "continuous_integration/environment-3.9.yaml",
+        "continuous_integration/environment-3.8.yaml",
+        "continuous_integration/travis/travis-37.yaml"
+    ],
+    "spyder-ide/spyder": [
+        "requirements/main.yml",
+    ],
+    "pandas-dev/pandas": [
+        "environment.yml"
+    ]
 }
 
 USE_X86_PY = {
@@ -1860,3 +1997,9 @@ USE_X86_PY = {
     "sympy__sympy-15222",
     "sympy__sympy-19201",
 }
+
+# All keys should be in lower case
+LOWER_MAP_REPO_VERSION_TO_SPECS = {
+    k.lower(): v for k, v in MAP_REPO_VERSION_TO_SPECS_PY.items()
+}
+MAP_REPO_VERSION_TO_SPECS_PY = LOWER_MAP_REPO_VERSION_TO_SPECS
