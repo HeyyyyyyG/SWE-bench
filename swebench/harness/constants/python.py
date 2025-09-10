@@ -981,6 +981,7 @@ for k in ['0.2', '0.41', '0.4', '0.6', '0.9', '0.10', '0.11', '0.13', '0.14', '0
 TEST_PANDAS = "pytest -rA --tb=long"
 SPECS_PANDAS = {
     k: {
+        "python": "3.9",
         "packages": "environment.yml",
         "pre_install": [
             "git remote add upstream https://github.com/pandas-dev/pandas.git",
@@ -1162,7 +1163,7 @@ TEST_DASK = "pytest -n0 -rA  --color=no"
 # pandas 2.0 is a breaking change, need to separate from there
 SPECS_DASK = {
     k: {
-        # "python": "3.10", 
+        "python": "3.10", 
         "env_patches": [
             # dask installs latest dask from github in environment.yml
             # remove these lines and delay dask installation later
@@ -1373,25 +1374,6 @@ for k in ['0.2', '0.41', '0.4', '0.6', '0.9', '0.10', '0.11', '0.13', '0.14', '0
         ]
     SPECS_PYDANTIC[k]["python"] = "3.7"
 
-
-# pandas
-# https://pandas.pydata.org/pandas-docs/dev/development/contributing_environment.html
-TEST_PANDAS = "pytest -rA --tb=long"
-SPECS_PANDAS = {
-    k: {
-        "packages": "environment.yml",
-        "pre_install": [
-            "git remote add upstream https://github.com/pandas-dev/pandas.git",
-            "git fetch upstream --tags"
-        ],
-        "install": "python -m pip install -ve . --no-build-isolation -Ceditable-verbose=true; pip uninstall pytest-qt -y;",
-        "test_cmd": TEST_PANDAS,
-    }
-    for k in ['0.16', '0.17', '0.18', '0.19', '0.20', '0.21', '0.22', '0.23', '0.24', '0.25', '0.26', '1.0', '1.1', '1.2', '1.3', '1.4', '1.5', '2.0', '2.1', '2.2', '3.0']
-}
-for k in ['0.16', '0.17', '0.18', '0.19', '0.20', '0.21', '0.22', '0.23', '0.24', '0.25', '0.26', '1.0', '1.1', '1.2', '1.3', '1.4', '1.5', '2.0', '2.1']:
-    # numpy 2 is supported in pandas 2.2
-    SPECS_PANDAS[k]['install'] = "python -m pip install 'numpy<2'; " + SPECS_PANDAS[k]['install'] 
 
 # hydra
 TEST_HYDRA = "pytest -rA --tb=long"
