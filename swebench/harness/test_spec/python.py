@@ -372,6 +372,31 @@ def make_env_script_list_py(instance, specs, env_name) -> list:
     return reqs_commands
 
 
+def make_test_command_py(instance) -> str:
+    """
+    Create the test command for a given instance.
+    Handles special cases like mypy where test case names need to be extracted.
+    """
+    # Special handling for mypy tests
+    if instance["repo"] == "python/mypy":
+        # Extract test case names from the test patch
+        # MyPy test files use [case testname] format
+        pattern = r'\[case ([^\]]+)\]'
+        test_keys = re.findall(pattern, instance["test_patch"])
+        if test_keys:
+            test_keys_or = " or ".join(test_keys)
+            test_command = MAP_REPO_VERSION_TO_SPECS[instance["repo"]][instance["version"]]["test_cmd"] + " " + f'"{test_keys_or}"'
+            return test_command
+    
+    # Default behavior for all other repos
+    test_command = " ".join(
+        [
+            MAP_REPO_VERSION_TO_SPECS[instance["repo"]][instance["version"]]["test_cmd"],
+            *get_test_directives(instance),
+        ]
+    )
+    return test_command
+
 def make_eval_script_list_py(
     instance, specs, env_name, repo_directory, base_commit, test_patch
 ) -> list:
@@ -385,14 +410,7 @@ def make_eval_script_list_py(
     apply_test_patch_command = (
         f"git apply -v - <<'{HEREDOC_DELIMITER}'\n{test_patch}\n{HEREDOC_DELIMITER}"
     )
-    test_command = " ".join(
-        [
-            MAP_REPO_VERSION_TO_SPECS[instance["repo"]][instance["version"]][
-                "test_cmd"
-            ],
-            *get_test_directives(instance),
-        ]
-    )
+    test_command = make_test_command_py(instance)
     eval_commands = [
         "set +u",  # Temporarily disable unset variable checking for conda activation
         "source /opt/miniconda3/bin/activate",
