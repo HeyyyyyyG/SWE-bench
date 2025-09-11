@@ -987,14 +987,19 @@ SPECS_PANDAS = {
             "git remote add upstream https://github.com/pandas-dev/pandas.git",
             "git fetch upstream --tags"
         ],
-        "install": "python -m pip install -ve . --no-build-isolation -Ceditable-verbose=true; pip uninstall pytest-qt -y;",
+        # Fix malformed CFLAGS/LDFLAGS that cause build failures by cleaning them before install
+        "install": "export CFLAGS=\"$(echo $CFLAGS | sed 's|/opt/miniconda3/envs/testbed/include||g')\"; export LDFLAGS=\"$(echo $LDFLAGS | sed 's|/opt/miniconda3/envs/testbed/include||g')\"; python -m pip install -ve . --no-build-isolation -Ceditable-verbose=true; pip uninstall pytest-qt -y;",
         "test_cmd": TEST_PANDAS,
     }
     for k in ['0.16', '0.17', '0.18', '0.19', '0.20', '0.21', '0.22', '0.23', '0.24', '0.25', '0.26', '1.0', '1.1', '1.2', '1.3', '1.4', '1.5', '2.0', '2.1', '2.2', '3.0']
 }
 for k in ['0.16', '0.17', '0.18', '0.19', '0.20', '0.21', '0.22', '0.23', '0.24', '0.25', '0.26', '1.0', '1.1', '1.2', '1.3', '1.4', '1.5', '2.0', '2.1']:
     # numpy 2 is supported in pandas 2.2
-    SPECS_PANDAS[k]['install'] = "python -m pip install 'numpy<2'; " + SPECS_PANDAS[k]['install']
+    # Need to preserve the environment variable fixes when prepending numpy install
+    base_install = SPECS_PANDAS[k]['install']
+    env_fixes = "export CFLAGS=\"$(echo $CFLAGS | sed 's|/opt/miniconda3/envs/testbed/include||g')\"; export LDFLAGS=\"$(echo $LDFLAGS | sed 's|/opt/miniconda3/envs/testbed/include||g')\"; "
+    rest_of_install = base_install.replace(env_fixes, "")
+    SPECS_PANDAS[k]['install'] = env_fixes + "python -m pip install 'numpy<2'; " + rest_of_install
 
 # hydra
 TEST_HYDRA = "pytest -rA --tb=long"
