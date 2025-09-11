@@ -394,8 +394,10 @@ def make_eval_script_list_py(
         ]
     )
     eval_commands = [
+        "set +u",  # Temporarily disable unset variable checking for conda activation
         "source /opt/miniconda3/bin/activate",
         f"conda activate {env_name}",
+        "set -u",  # Re-enable unset variable checking
         f"cd {repo_directory}",
     ]
     if "eval_commands" in specs:
@@ -407,8 +409,10 @@ def make_eval_script_list_py(
         "git status",
         "git show",
         f"git -c core.fileMode=false diff {base_commit}",
+        "set +u",  # Temporarily disable unset variable checking for conda activation
         "source /opt/miniconda3/bin/activate",
         f"conda activate {env_name}",
+        "set -u",  # Re-enable unset variable checking
     ]
     if "install" in specs:
         eval_commands.append(specs["install"])

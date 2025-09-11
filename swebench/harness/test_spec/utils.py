@@ -87,9 +87,9 @@ def make_eval_script_list_common(
         reset_tests_command,
         apply_test_patch_command,
         *build_commands,
-        f": '{START_TEST_OUTPUT}'",
+        f"echo '{START_TEST_OUTPUT}'",
         *test_commands,
-        f": '{END_TEST_OUTPUT}'",
+        f"echo '{END_TEST_OUTPUT}'",
         reset_tests_command,
     ]
     return eval_commands

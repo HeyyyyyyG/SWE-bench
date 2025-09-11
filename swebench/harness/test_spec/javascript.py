@@ -99,7 +99,7 @@ def make_eval_script_list_js(
     if instance["repo"] in MAP_REPO_TO_TEST_CMDS:
         # Update test commands if they are custom commands
         test_commands = MAP_REPO_TO_TEST_CMDS[instance["repo"]](instance)
-        idx_start_test_out = eval_commands.index(f": '{START_TEST_OUTPUT}'")
-        idx_end_test_out = eval_commands.index(f": '{END_TEST_OUTPUT}'")
+        idx_start_test_out = eval_commands.index(f"echo '{START_TEST_OUTPUT}'")
+        idx_end_test_out = eval_commands.index(f"echo '{END_TEST_OUTPUT}'")
         eval_commands[idx_start_test_out + 1 : idx_end_test_out] = test_commands
     return eval_commands
